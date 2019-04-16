@@ -16,7 +16,7 @@ export default combineReducers<IReposState, ReposAction>({
   payload: (state = [], action) =>
     action.type === types.FETCH_REPOS_SUCCESS ? action.payload : state,
   fetching: (state = false, action) =>
-    action.type === types.FETCH_ISSUES_REQUEST || (state && !(types.FETCH_ISSUES_SUCCESS || types.FETCH_ISSUES_FAILURE)),
+    action.type === types.FETCH_REPOS_REQUEST || (state && !(types.FETCH_ISSUES_SUCCESS || types.FETCH_ISSUES_FAILURE)),
   // tslint:disable-next-line: variable-name
-  error: (_state, action) => (action.type === types.FETCH_ISSUES_FAILURE ? action.payload : { message: '', status: 0 }),
+  error: (_state, action) => (action.type === types.FETCH_REPOS_FAILURE ? action.payload : { message: '', status: 0 }),
 })

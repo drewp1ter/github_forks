@@ -45,8 +45,8 @@ export const fetchIssuesAction: Epic<IssuesSearchingAction, IssuesSearchingActio
         getJSON(apiEndpoints.userRepos(action.payload)).pipe(
           timeout(10000),
           map((res: any) => res.map(({ name }: any) => name)),
-          map(fetchIssues.success),
-          catchError(error => of(fetchIssues.failure(error.response ? { message: error.response.message, status: error.status } : error)))
+          map(fetchRepos.success),
+          catchError(error => of(fetchRepos.failure(error.response ? { message: error.response.message, status: error.status } : error)))
         )
       )
     )

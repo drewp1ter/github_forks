@@ -16,12 +16,10 @@ class GitForksLayout extends React.Component<IssuesSearchingState> {
   }
 
   public render = () => {
-    const { payload: forks } = this.props
     return (
       <div className={styles.layout}>
         <Header title="GitHub Interface" />
         <Searching className={styles.searching} />
-        <SearchingResults issues={forks} />
       </div>
     )
   }

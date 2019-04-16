@@ -3,7 +3,7 @@ import { fromEvent } from 'rxjs'
 import { debounceTime, map, tap, filter, pluck } from 'rxjs/operators'
 import classNames from 'classnames'
 
-import { Input, Button, InputWithSuggestions, Spinner, RadioGroup } from 'components'
+import { Input, Button, InputWithSuggestions, Spinner } from 'components'
 import { IIssuesRequest } from '../../models'
 import { fetchIssues, fetchRepos } from '../../actions'
 import { IGitForksState } from '../../reducer'
@@ -88,16 +88,6 @@ class Searching extends React.Component<AllProps, IState> {
         <div className={styles.repoName}>
           <label className={styles.label}>Repository name</label>
           <InputWithSuggestions name="repoName" onChange={this.handleChange} suggestions={repos.payload} value={repoName} />
-        </div>
-        <div className={styles.radioWrapper}>
-          <label className={styles.label}>Status</label>
-          <RadioGroup
-            className={styles.radio}
-            items={[{ value: 'all', label: 'All' }, { value: 'open', label: 'Open' }, { value: 'closed', label: 'Closed' }]}
-            name="issuesState"
-            value={issuesState}
-            onChange={this.handleChange}
-          />
         </div>
         <Button className={styles.button} onClick={this.handleClick} disabled={forks.fetching || !repoName || !userName} loading={forks.fetching}>
           Search
