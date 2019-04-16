@@ -1,6 +1,6 @@
 import * as issuesSearchingComponents from './components'
 import * as issuesSearchingContainers from './containers'
-import issuesSearchingReducer, { IssuesSearchingAction, IssuesSearchingState } from './reducer'
+import issuesSearchingReducer, { IssuesSearchingAction, ReposAction, IGitForksState } from './reducer'
 import issuesSearchingEpics from './epics'
 import issuesSearchingRoutes from './routes'
 import * as issuesSearchingActions from './actions'
@@ -14,4 +14,5 @@ export {
   issuesSearchingActions,
 }
 export type IssuesSearchingAction = IssuesSearchingAction
-export type IssuesSearchingState = IssuesSearchingState
+export type IGitForksState = IGitForksState
+export type ReposAction = ReposAction

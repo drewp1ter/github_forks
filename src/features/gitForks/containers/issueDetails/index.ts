@@ -2,12 +2,13 @@ import { connect } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 import Types from 'Types'
 
+import IssueDetails from './issueDetails'
 import * as actions from '../../actions'
-import Searching from './Searching'
+import withLoading from 'hocs/withLoading'
 
 const mapStateToProps = (state: Types.RootState) => {
-  const { fetching, issues, error } = state.issuesViewer
-  return { fetching, issues, error }
+  const { fetching, payload, error } = state.issuesViewer.forks
+  return { fetching, payload, error }
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
@@ -21,4 +22,4 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Searching)
+)(withLoading(IssueDetails))

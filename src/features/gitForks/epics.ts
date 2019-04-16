@@ -5,8 +5,8 @@ import { isActionOf } from 'typesafe-actions'
 import { of } from 'rxjs'
 import { combineEpics } from 'redux-observable'
 
-import { fetchIssues } from './actions'
-import { IssuesSearchingAction } from './reducer'
+import { fetchIssues, fetchRepos } from './actions'
+import { IssuesSearchingAction, ReposAction } from './reducer'
 import * as apiEndpoints from './apiEndpoints'
 import { IIssueDTO, Issue } from './models'
 
@@ -33,4 +33,22 @@ export const fetchIssuesAction: Epic<IssuesSearchingAction, IssuesSearchingActio
     )
   )
 
-export default combineEpics(fetchIssuesAction)
+  export const fetchReposAction: Epic<ReposAction, ReposAction, Types.RootState, Types.Services> = (
+    action$,
+    // tslint:disable-next-line:variable-name
+    _state$,
+    { getJSON }
+  ) =>
+    action$.pipe(
+      filter(isActionOf(fetchRepos.request)),
+      switchMap(action =>
+        getJSON(apiEndpoints.userRepos(action.payload)).pipe(
+          timeout(10000),
+          map((res: any) => res.map(({ name }: any) => name)),
+          map(fetchIssues.success),
+          catchError(error => of(fetchIssues.failure(error.response ? { message: error.response.message, status: error.status } : error)))
+        )
+      )
+    )
+
+export default combineEpics(fetchIssuesAction, fetchReposAction)

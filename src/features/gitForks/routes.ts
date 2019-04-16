@@ -6,12 +6,7 @@ const routes: RouteConfig[] = [
   {
     path: '/',
     exact: true,
-    component: containers.IssuesSearchingLayout,
-  },
-  {
-    path: '/issue_details/:userName/:repoName/:id',
-    exact: true,
-    component: containers.IssueDetails,
+    component: containers.GitForksLayout,
   },
 ]
 

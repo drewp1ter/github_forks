@@ -3,11 +3,11 @@ import { toast } from 'react-toastify'
 
 import { Searching } from '..'
 import { SearchingResults } from '../../components'
-import styles from './issuesSearchingLayout.module.scss'
+import styles from './gitForksLayout.module.scss'
 import { Header } from 'components'
-import { IssuesSearchingState } from '../../reducer'
+import { IssuesSearchingState } from '../../reducer/forks'
 
-class IssuesSearchingLayout extends React.Component<IssuesSearchingState> {
+class GitForksLayout extends React.Component<IssuesSearchingState> {
   public componentWillReceiveProps = (nextProps: IssuesSearchingState) => {
     const {
       error: { message },
@@ -16,15 +16,15 @@ class IssuesSearchingLayout extends React.Component<IssuesSearchingState> {
   }
 
   public render = () => {
-    const { issues } = this.props
+    const { payload: forks } = this.props
     return (
       <div className={styles.layout}>
         <Header title="GitHub Interface" />
         <Searching className={styles.searching} />
-        <SearchingResults issues={issues} />
+        <SearchingResults issues={forks} />
       </div>
     )
   }
 }
 
-export default IssuesSearchingLayout
+export default GitForksLayout

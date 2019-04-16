@@ -1,4 +1,4 @@
-import reducer, { IssuesSearchingState } from './reducer'
+import reducer, { IssuesSearchingState } from './reducer/forks'
 import * as actions from './actions'
 import { Issue } from './models'
 

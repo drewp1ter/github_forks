@@ -1,18 +1,17 @@
 import * as React from 'react'
-import { of, fromEvent } from 'rxjs'
-import { ajax } from 'rxjs/ajax'
-import { debounceTime, map, tap, catchError, switchMap, filter, pluck, timeout } from 'rxjs/operators'
+import { fromEvent } from 'rxjs'
+import { debounceTime, map, tap, filter, pluck } from 'rxjs/operators'
 import classNames from 'classnames'
 
 import { Input, Button, InputWithSuggestions, Spinner, RadioGroup } from 'components'
-import { userRepos } from '../../apiEndpoints'
 import { IIssuesRequest } from '../../models'
-import { fetchIssues } from '../../actions'
-import { IssuesSearchingState } from '../../reducer'
+import { fetchIssues, fetchRepos } from '../../actions'
+import { IGitForksState } from '../../reducer'
 import styles from './searching.module.scss'
 
 export interface IPropsFromDispatch {
   fetchIssues: typeof fetchIssues.request
+  fetchRepos: typeof fetchRepos.request
 }
 
 export interface IProps {
@@ -21,12 +20,9 @@ export interface IProps {
 
 export interface IState extends IIssuesRequest {
   readonly [key: string]: any
-  readonly reposSuggestions: string[]
-  readonly reposNotFound: boolean
-  readonly reposFetching: boolean
 }
 
-type AllProps = IProps & IPropsFromDispatch & IssuesSearchingState
+type AllProps = IProps & IPropsFromDispatch & IGitForksState
 
 class Searching extends React.Component<AllProps, IState> {
   public static defaultProps = {
@@ -36,9 +32,6 @@ class Searching extends React.Component<AllProps, IState> {
   public state: IState = {
     userName: '',
     repoName: '',
-    reposSuggestions: [],
-    reposNotFound: false,
-    reposFetching: false,
     issuesState: 'all',
   }
 
@@ -56,6 +49,7 @@ class Searching extends React.Component<AllProps, IState> {
   }
 
   public fetchRepos = (node: HTMLInputElement) => {
+    const { fetchRepos } = this.props
     try {
       if (!node) {
         return
@@ -67,36 +61,16 @@ class Searching extends React.Component<AllProps, IState> {
           map(value => value as string),
           filter(value => value !== ''),
           debounceTime(800),
-          tap(() => this.setState({ reposFetching: true })),
-          switchMap(value =>
-            ajax.getJSON(userRepos(value)).pipe(
-              timeout(10000),
-              map(res => res as Array<{ name: string }>),
-              map(res => res.map(({ name }) => name)),
-              catchError(() => {
-                this.setState({
-                  reposNotFound: true,
-                  reposFetching: false,
-                })
-                return of([])
-              })
-            )
-          )
         )
-        .subscribe(reposSuggestions =>
-          this.setState({
-            reposSuggestions,
-            reposFetching: false,
-          })
-        )
+        .subscribe(userName => fetchRepos(userName))
     } catch (e) {
       console.error(e)
     }
   }
 
   public render = () => {
-    const { className, fetching } = this.props
-    const { userName, repoName, reposNotFound, reposSuggestions, reposFetching, issuesState } = this.state
+    const { className, forks, repos } = this.props
+    const { userName, repoName, issuesState } = this.state
     const wrpClass = classNames(styles.wrapper, className)
     return (
       <div className={wrpClass}>
@@ -105,15 +79,15 @@ class Searching extends React.Component<AllProps, IState> {
           <Input
             inputRef={this.fetchRepos}
             onChange={this.handleChange}
-            hasError={reposNotFound}
+            hasError={!!repos.error.message}
             name="userName"
             value={userName}
           />
         </div>
-        <div className={styles.spinner}>{reposFetching && <Spinner />}</div>
+        <div className={styles.spinner}>{repos.fetching && <Spinner />}</div>
         <div className={styles.repoName}>
           <label className={styles.label}>Repository name</label>
-          <InputWithSuggestions name="repoName" onChange={this.handleChange} suggestions={reposSuggestions} value={repoName} />
+          <InputWithSuggestions name="repoName" onChange={this.handleChange} suggestions={repos.payload} value={repoName} />
         </div>
         <div className={styles.radioWrapper}>
           <label className={styles.label}>Status</label>
@@ -125,7 +99,7 @@ class Searching extends React.Component<AllProps, IState> {
             onChange={this.handleChange}
           />
         </div>
-        <Button className={styles.button} onClick={this.handleClick} disabled={fetching || !repoName || !userName} loading={fetching}>
+        <Button className={styles.button} onClick={this.handleClick} disabled={forks.fetching || !repoName || !userName} loading={forks.fetching}>
           Search
         </Button>
       </div>
