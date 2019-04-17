@@ -1,34 +1,41 @@
 import * as React from 'react'
 import { RouteComponentProps } from 'react-router'
+import queryString from 'query-string'
 
 import styles from './searchingResults.module.scss'
 import { IForksState } from '../../reducer/forks'
 import { fetchForks } from '../../actions'
-
-export interface IMatchParams {
-  userName: string
-  repoName: string
-}
+import { Button } from 'components'
 
 export interface IProps {
   readonly fetchForks: typeof fetchForks.request
 }
 
-type AllProps = IForksState & IProps & RouteComponentProps<IMatchParams>
+type AllProps = IForksState & IProps & RouteComponentProps
 
 class SearchingResults extends React.Component<AllProps> {
   public componentDidMount = () => {
-    const { forks, fetchForks, match } = this.props
-    const { repoName, userName } = match.params
-    !forks.length && repoName && userName && fetchForks({ repoName, userName })
+    const { forks, fetchForks, location } = this.props
+    const { page, user: userName, repository: repoName } = queryString.parse(location.search) as any
+    !forks.length && repoName && userName && fetchForks({ repoName, userName, page })
   }
 
   public componentWillReceiveProps = (nextProps: AllProps) => {
-    const { fetchForks, match } = this.props
-    const { repoName: prevRepoName, userName: prevUserName } = match.params
-    const { repoName, userName } = nextProps.match.params
-    if (repoName !== prevRepoName || userName !== prevUserName) {
-      fetchForks({ repoName, userName })
+    const { fetchForks, location } = this.props
+    const { page: prevPage, user: prevUserName, repository: prevRepoName } = queryString.parse(location.search) as any
+    const { page, user: userName, repository: repoName } = queryString.parse(nextProps.location.search) as any
+    if (repoName !== prevRepoName || userName !== prevUserName || prevPage !== page) {
+      fetchForks({ repoName, userName, page })
+    }
+  }
+
+  public handleChangePage = (to: number) => () => {
+    try {
+      const { location, history } = this.props
+      const { page, user: userName, repository: repoName } = queryString.parse(location.search) as any
+      ;+page + to > 0 && history.push(`/search?user=${userName}&repository=${repoName}&page=${+page + to}`)
+    } catch (e) {
+      console.log(e)
     }
   }
 
@@ -50,8 +57,16 @@ class SearchingResults extends React.Component<AllProps> {
   }
 
   public render = () => {
+    const { forks } = this.props
+    if (!forks.length) {
+      return null
+    }
     return (
       <div className={styles.ibox}>
+        <div className={styles.navButtons}>
+          <Button onClick={this.handleChangePage(-1)}>{'<<'}</Button>
+          <Button onClick={this.handleChangePage(1)}>{'>>'}</Button>
+        </div>
         <div className={styles.iboxContent}>
           <table className={styles.table}>
             <thead>

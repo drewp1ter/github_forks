@@ -11,7 +11,7 @@ export interface IProps {
   readonly loading?: boolean
   readonly theme?: 'default'
   readonly size?: 'sm'
-  readonly onClick: () => void
+  readonly onClick?: () => void
 }
 
 const Button: React.FC<IProps> = ({

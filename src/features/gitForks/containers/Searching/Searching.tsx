@@ -3,6 +3,7 @@ import { fromEvent } from 'rxjs'
 import { debounceTime, map, tap, filter, pluck } from 'rxjs/operators'
 import classNames from 'classnames'
 import { RouteComponentProps } from 'react-router'
+import queryString from 'query-string'
 
 import { Input, Button, InputWithSuggestions, Spinner } from 'components'
 import { IForksRequest } from '../../models'
@@ -22,12 +23,7 @@ export interface IState extends IForksRequest {
   readonly [key: string]: any
 }
 
-export interface IMatchParams {
-  userName: string
-  repoName: string
-}
-
-type AllProps = IProps & IPropsFromDispatch & IGitForksState & RouteComponentProps<IMatchParams>
+type AllProps = IProps & IPropsFromDispatch & IGitForksState & RouteComponentProps
 
 class Searching extends React.Component<AllProps, IState> {
   public static defaultProps = {
@@ -44,8 +40,12 @@ class Searching extends React.Component<AllProps, IState> {
   public componentWillUnmount = () => this.userNameSubscription.unsubscribe()
 
   public componentDidMount = () => {
-    const { fetchRepos, repos: { repos } } = this.props
-    const { userName, repoName } = this.props.match.params
+    const {
+      fetchRepos,
+      location,
+      repos: { repos },
+    } = this.props
+    const { user: userName, repository: repoName } = queryString.parse(location.search) as any
     !repos.length && userName && fetchRepos(userName)
     this.setState({ userName, repoName })
   }
@@ -56,7 +56,7 @@ class Searching extends React.Component<AllProps, IState> {
   public handleClick = () => {
     const { history } = this.props
     const { userName, repoName } = this.state
-    history.push(`/${userName}/${repoName}`)
+    history.push(`/search?user=${userName}&repository=${repoName}&page=1`)
   }
 
   public fetchRepos = (node: HTMLInputElement) => {
@@ -71,7 +71,7 @@ class Searching extends React.Component<AllProps, IState> {
           pluck('target', 'value'),
           map(value => value as string),
           filter(value => value !== ''),
-          debounceTime(800),
+          debounceTime(800)
         )
         .subscribe(userName => fetchRepos(userName))
     } catch (e) {
@@ -100,7 +100,12 @@ class Searching extends React.Component<AllProps, IState> {
           <label className={styles.label}>Repository name</label>
           <InputWithSuggestions name="repoName" onChange={this.handleChange} suggestions={repos.repos} value={repoName} />
         </div>
-        <Button className={styles.button} onClick={this.handleClick} disabled={forks.fetching || !repoName || !userName} loading={forks.fetching}>
+        <Button
+          className={styles.button}
+          onClick={this.handleClick}
+          disabled={forks.fetching || !repoName || !userName}
+          loading={forks.fetching}
+        >
           Search
         </Button>
       </div>

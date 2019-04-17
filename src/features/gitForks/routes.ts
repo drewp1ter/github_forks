@@ -9,7 +9,7 @@ const routes: RouteConfig[] = [
     component: containers.GitForksLayout,
   },
   {
-    path: '/:userName/:repoName',
+    path: '/search',
     exact: true,
     component: containers.GitForksLayout,
   },
