@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware } from 'redux'
 import { createEpicMiddleware } from 'redux-observable'
-import createHistory from 'history/createBrowserHistory'
+import { createBrowserHistory } from 'history'
 import { routerMiddleware } from 'react-router-redux'
 
 import Types from 'Types'
@@ -9,7 +9,7 @@ import rootReducer from './root-reducer'
 import rootEpic from './root-epic'
 import services from '../services'
 
-export const history = createHistory()
+export const history = createBrowserHistory()
 
 // const { loadState } = services.localStorage
 const initialState = {}
