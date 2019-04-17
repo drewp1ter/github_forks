@@ -6,7 +6,7 @@ import classNames from 'classnames'
 import { Input, Button, InputWithSuggestions, Spinner } from 'components'
 import { IForksRequest } from '../../models'
 import { fetchForks, fetchRepos } from '../../actions'
-import { IGitForksState } from '../../reducer'
+import { IReposState } from '../../reducer/repos'
 import styles from './searching.module.scss'
 
 export interface IPropsFromDispatch {
@@ -16,13 +16,14 @@ export interface IPropsFromDispatch {
 
 export interface IProps {
   readonly className?: string
+  readonly forksFetching: boolean
 }
 
 export interface IState extends IForksRequest {
   readonly [key: string]: any
 }
 
-type AllProps = IProps & IPropsFromDispatch & IGitForksState
+type AllProps = IProps & IPropsFromDispatch & IReposState
 
 class Searching extends React.Component<AllProps, IState> {
   public static defaultProps = {
@@ -68,7 +69,7 @@ class Searching extends React.Component<AllProps, IState> {
   }
 
   public render = () => {
-    const { className, forks, repos } = this.props
+    const { className, forksFetching, repos, error, fetching } = this.props
     const { userName, repoName } = this.state
     const wrpClass = classNames(styles.wrapper, className)
     return (
@@ -78,17 +79,17 @@ class Searching extends React.Component<AllProps, IState> {
           <Input
             inputRef={this.fetchRepos}
             onChange={this.handleChange}
-            hasError={!!repos.error.message}
+            hasError={!!error.message}
             name="userName"
             value={userName}
           />
         </div>
-        <div className={styles.spinner}>{repos.fetching && <Spinner />}</div>
+        <div className={styles.spinner}>{fetching && <Spinner />}</div>
         <div className={styles.repoName}>
           <label className={styles.label}>Repository name</label>
-          <InputWithSuggestions name="repoName" onChange={this.handleChange} suggestions={repos.payload} value={repoName} />
+          <InputWithSuggestions name="repoName" onChange={this.handleChange} suggestions={repos} value={repoName} />
         </div>
-        <Button className={styles.button} onClick={this.handleClick} disabled={forks.fetching || !repoName || !userName} loading={forks.fetching}>
+        <Button className={styles.button} onClick={this.handleClick} disabled={forksFetching || !repoName || !userName} loading={forksFetching}>
           Search
         </Button>
       </div>

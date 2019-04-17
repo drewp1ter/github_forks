@@ -5,13 +5,13 @@ import { GitForksAction } from '.'
 import { fetchRepos } from '../actions'
 
 export interface IReposState {
-  readonly payload: string[]
+  readonly repos: string[]
   readonly fetching: boolean
   readonly error: IRequestError
 }
 
 export default combineReducers<IReposState, GitForksAction>({
-  payload: (state = [], action) =>
+  repos: (state = [], action) =>
     action.type === getType(fetchRepos.success) ? action.payload : state,
   fetching: (state = false, action) =>
     action.type === getType(fetchRepos.request) || (state && !(getType(fetchRepos.success) || getType(fetchRepos.failure))),

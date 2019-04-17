@@ -6,13 +6,13 @@ import { GitForksAction } from '.'
 import { fetchForks } from '../actions'
 
 export interface IForksState {
-  readonly payload: IFork[]
+  readonly forks: IFork[]
   readonly fetching: boolean
   readonly error: IRequestError
 }
 
 export default combineReducers<IForksState, GitForksAction>({
-  payload: (state = [], action) =>
+  forks: (state = [], action) =>
     action.type === getType(fetchForks.success) ? action.payload : state,
   fetching: (state = false, action) =>
     action.type === getType(fetchForks.request) || (state && !(getType(fetchForks.success) || getType(fetchForks.failure))),

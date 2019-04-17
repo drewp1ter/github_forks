@@ -25,6 +25,8 @@ class InputWithSuggestions extends React.Component<IProps, IState> {
     theme: 'default',
   }
 
+  componentWillReceiveProps = ({ suggestions }: IProps) => this.setState({ suggestions })
+
   public state = {
     suggestions: this.props.suggestions,
     showSuggestions: false,

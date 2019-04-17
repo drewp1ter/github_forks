@@ -6,8 +6,8 @@ import * as actions from '../../actions'
 import Searching from './Searching'
 
 const mapStateToProps = (state: Types.RootState) => {
-  const { forks, repos } = state.gitForks
-  return { forks, repos }
+  const { forks: { fetching: forksFetching }, repos } = state.gitForks
+  return { forksFetching, ...repos }
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
