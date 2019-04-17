@@ -1,5 +1,5 @@
 import { combineEpics } from 'redux-observable'
 
-import { issuesSearchingEpics } from 'features/gitForks'
+import { gitForksEpics } from 'features/gitForks'
 
-export default combineEpics(issuesSearchingEpics)
+export default combineEpics(gitForksEpics)

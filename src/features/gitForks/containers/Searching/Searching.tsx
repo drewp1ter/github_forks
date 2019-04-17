@@ -22,7 +22,12 @@ export interface IState extends IForksRequest {
   readonly [key: string]: any
 }
 
-type AllProps = IProps & IPropsFromDispatch & IGitForksState & RouteComponentProps
+export interface IMatchParams {
+  userName: string
+  repoName: string
+}
+
+type AllProps = IProps & IPropsFromDispatch & IGitForksState & RouteComponentProps<IMatchParams>
 
 class Searching extends React.Component<AllProps, IState> {
   public static defaultProps = {
@@ -37,6 +42,13 @@ class Searching extends React.Component<AllProps, IState> {
   public userNameSubscription: any = null
 
   public componentWillUnmount = () => this.userNameSubscription.unsubscribe()
+
+  public componentDidMount = () => {
+    const { fetchRepos, repos: { repos } } = this.props
+    const { userName, repoName } = this.props.match.params
+    !repos.length && userName && fetchRepos(userName)
+    this.setState({ userName, repoName })
+  }
 
   public handleChange = (value: string | number, name = 'def', onSelect = false): void =>
     this.setState({ [name]: value }, () => onSelect && this.handleClick())

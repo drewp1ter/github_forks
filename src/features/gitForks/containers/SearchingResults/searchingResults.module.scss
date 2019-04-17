@@ -1,8 +1,3 @@
-.container {
-    border-top: 1px solid #f1f1f1;
-    display: flex;
-    flex-direction: column;
-}
 
 .ibox {
     clear: both;
@@ -13,11 +8,7 @@
 .iboxContent {
     background-color: #ffffff;
     color: inherit;
-    padding: 15px 20px 20px 20px;
-    border-color: #e7eaec;
-    border-image: none;
-    border-style: solid solid none;
-    border-width: 1px 0;
+    padding: 15px 0 15px;
 }
 
 .table {

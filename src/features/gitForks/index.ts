@@ -1,17 +1,15 @@
-import * as issuesSearchingComponents from './components'
-import * as issuesSearchingContainers from './containers'
+import * as gitForksContainers from './containers'
 import gitForksReducer, { GitForksAction, IGitForksState } from './reducer'
-import issuesSearchingEpics from './epics'
-import issuesSearchingRoutes from './routes'
-import * as issuesSearchingActions from './actions'
+import gitForksEpics from './epics'
+import gitForksRoutes from './routes'
+import * as gitForksActions from './actions'
 
 export {
-  issuesSearchingComponents,
-  issuesSearchingContainers,
+  gitForksContainers,
   gitForksReducer,
-  issuesSearchingRoutes,
-  issuesSearchingEpics,
-  issuesSearchingActions,
+  gitForksRoutes,
+  gitForksEpics,
+  gitForksActions,
 }
 export type GitForksAction = GitForksAction
 export type IGitForksState = IGitForksState

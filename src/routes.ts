@@ -2,14 +2,14 @@ import { RouteConfig } from 'react-router-config'
 
 import MainLayout from 'components/MainLayout'
 import NotFound from 'components/NotFound'
-import { issuesSearchingRoutes } from 'features/gitForks'
+import { gitForksRoutes } from 'features/gitForks'
 
 const routes: RouteConfig[] = [
   {
     path: '/',
     component: MainLayout,
     routes: [
-      ...issuesSearchingRoutes,
+      ...gitForksRoutes,
       {
         path: '*',
         component: NotFound,
