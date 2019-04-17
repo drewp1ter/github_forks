@@ -6,14 +6,14 @@ import * as actions from '../../actions'
 import Searching from './Searching'
 
 const mapStateToProps = (state: Types.RootState) => {
-  const { forks, repos } = state.issuesViewer
+  const { forks, repos } = state.gitForks
   return { forks, repos }
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
-      fetchIssues: actions.fetchIssues.request,
+      fetchForks: actions.fetchForks.request,
       fetchRepos: actions.fetchRepos.request,
     },
     dispatch

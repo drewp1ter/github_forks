@@ -2,13 +2,13 @@ import * as React from 'react'
 import { toast } from 'react-toastify'
 
 import { Searching } from '..'
-import { SearchingResults } from '../../components'
+// import { SearchingResults } from '../../components'
 import styles from './gitForksLayout.module.scss'
 import { Header } from 'components'
-import { IssuesSearchingState } from '../../reducer/forks'
+import { IForksState } from '../../reducer/forks'
 
-class GitForksLayout extends React.Component<IssuesSearchingState> {
-  public componentWillReceiveProps = (nextProps: IssuesSearchingState) => {
+class GitForksLayout extends React.Component<IForksState> {
+  public componentWillReceiveProps = (nextProps: IForksState) => {
     const {
       error: { message },
     } = nextProps

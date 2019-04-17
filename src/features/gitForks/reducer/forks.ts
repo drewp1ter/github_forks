@@ -1,23 +1,21 @@
 import { combineReducers } from 'redux'
-import { ActionType } from 'typesafe-actions'
+import { getType } from 'typesafe-actions'
 
-import { IIssues } from '../models'
-import * as actions from '../actions'
-import * as types from '../actionTypes'
+import { IFork } from '../models'
+import { GitForksAction } from '.'
+import { fetchForks } from '../actions'
 
-export interface IssuesSearchingState {
-  readonly payload: IIssues
+export interface IForksState {
+  readonly payload: IFork[]
   readonly fetching: boolean
   readonly error: IRequestError
 }
 
-export type IssuesSearchingAction = ActionType<typeof actions>
-
-export default combineReducers<IssuesSearchingState, IssuesSearchingAction>({
-  payload: (state = { userName: '', repoName: '', payload: [] }, action) =>
-    action.type === types.FETCH_ISSUES_SUCCESS ? action.payload : state,
+export default combineReducers<IForksState, GitForksAction>({
+  payload: (state = [], action) =>
+    action.type === getType(fetchForks.success) ? action.payload : state,
   fetching: (state = false, action) =>
-    action.type === types.FETCH_ISSUES_REQUEST || (state && !(types.FETCH_ISSUES_SUCCESS || types.FETCH_ISSUES_FAILURE)),
+    action.type === getType(fetchForks.request) || (state && !(getType(fetchForks.success) || getType(fetchForks.failure))),
   // tslint:disable-next-line: variable-name
-  error: (_state, action) => (action.type === types.FETCH_ISSUES_FAILURE ? action.payload : { message: '', status: 0 }),
+  error: (_state, action) => (action.type === getType(fetchForks.failure) ? action.payload : { message: '', status: 0 }),
 })

@@ -3,8 +3,8 @@ import Types from 'Types'
 import { connect } from 'react-redux'
 
 const mapStateToProps = (state: Types.RootState) => {
-  const { forks } = state.issuesViewer
-  return { ...forks }
+  const { payload, fetching, error } = state.gitForks.forks
+  return { payload, fetching, error }
 }
 
 export default connect(mapStateToProps)(GitForksLayout)

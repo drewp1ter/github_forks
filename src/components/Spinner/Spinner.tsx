@@ -10,7 +10,7 @@ export interface IProps {
   className?: string
 }
 
-const Spinner: React.StatelessComponent<IProps> = ({ className = '', type = 'wave', theme = 'default', size = 'sm' }) => {
+const Spinner: React.FC<IProps> = ({ className = '', type = 'wave', theme = 'default', size = 'sm' }) => {
   switch (type) {
     case 'wave':
       return (

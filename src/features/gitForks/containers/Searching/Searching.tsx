@@ -4,13 +4,13 @@ import { debounceTime, map, tap, filter, pluck } from 'rxjs/operators'
 import classNames from 'classnames'
 
 import { Input, Button, InputWithSuggestions, Spinner } from 'components'
-import { IIssuesRequest } from '../../models'
-import { fetchIssues, fetchRepos } from '../../actions'
+import { IForksRequest } from '../../models'
+import { fetchForks, fetchRepos } from '../../actions'
 import { IGitForksState } from '../../reducer'
 import styles from './searching.module.scss'
 
 export interface IPropsFromDispatch {
-  fetchIssues: typeof fetchIssues.request
+  fetchForks: typeof fetchForks.request
   fetchRepos: typeof fetchRepos.request
 }
 
@@ -18,7 +18,7 @@ export interface IProps {
   readonly className?: string
 }
 
-export interface IState extends IIssuesRequest {
+export interface IState extends IForksRequest {
   readonly [key: string]: any
 }
 
@@ -32,7 +32,6 @@ class Searching extends React.Component<AllProps, IState> {
   public state: IState = {
     userName: '',
     repoName: '',
-    issuesState: 'all',
   }
 
   public userNameSubscription: any = null
@@ -43,9 +42,9 @@ class Searching extends React.Component<AllProps, IState> {
     this.setState({ [name]: value }, () => onSelect && this.handleClick())
 
   public handleClick = () => {
-    const { fetchIssues } = this.props
-    const { userName, repoName, issuesState } = this.state
-    fetchIssues({ userName, repoName, issuesState })
+    const { fetchForks } = this.props
+    const { userName, repoName } = this.state
+    fetchForks({ userName, repoName })
   }
 
   public fetchRepos = (node: HTMLInputElement) => {
@@ -70,7 +69,7 @@ class Searching extends React.Component<AllProps, IState> {
 
   public render = () => {
     const { className, forks, repos } = this.props
-    const { userName, repoName, issuesState } = this.state
+    const { userName, repoName } = this.state
     const wrpClass = classNames(styles.wrapper, className)
     return (
       <div className={wrpClass}>

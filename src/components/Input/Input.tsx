@@ -15,7 +15,7 @@ export interface IProps {
   readonly [key: string]: any // rest
 }
 
-const Input: React.StatelessComponent<IProps> = ({
+const Input: React.FC<IProps> = ({
   type = 'text',
   className = '',
   theme = 'default',

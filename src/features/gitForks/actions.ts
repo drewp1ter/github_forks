@@ -1,5 +1,5 @@
 import { createAsyncAction } from 'typesafe-actions'
-import { IIssuesRequest, IIssues } from './models'
+import { IForksRequest, IFork } from './models'
 
 import * as types from './actionTypes'
 
@@ -9,8 +9,8 @@ export const fetchRepos = createAsyncAction(types.FETCH_REPOS_REQUEST, types.FET
   IRequestError
 >()
 
-export const fetchIssues = createAsyncAction(types.FETCH_ISSUES_REQUEST, types.FETCH_ISSUES_SUCCESS, types.FETCH_ISSUES_FAILURE)<
-  IIssuesRequest,
-  IIssues,
+export const fetchForks = createAsyncAction(types.FETCH_FORKS_REQUEST, types.FETCH_FORKS_SUCCESS, types.FETCH_FORKS_FAILURE)<
+  IForksRequest,
+  IFork[],
   IRequestError
 >()

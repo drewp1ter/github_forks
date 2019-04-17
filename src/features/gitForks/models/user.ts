@@ -1,21 +1,17 @@
-export interface IUserDTO {
-  id: number
-  login: string
-  avatar_url: string
-  html_url: string
-}
-
 export interface IUser {
   id: number
   login: string
   avatarUrl: string
-  htmlUrl: string
 }
 
 export class User implements IUser {
+  public id: number
+  public login: string
+  public avatarUrl: string
 
-  public static create(dto: IUserDTO): IUser {
-    return new User(dto.id, dto.login, dto.avatar_url, dto.html_url)
+  constructor(props: any = {}) {
+    this.id = props.id || -1
+    this.login = props.login || ''
+    this.avatarUrl = props.avatarUrl || ''
   }
-  constructor(public id: number = -1, public login: string = '', public avatarUrl: string = '', public htmlUrl: string = '') {}
 }

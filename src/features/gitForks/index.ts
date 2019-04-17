@@ -1,6 +1,6 @@
 import * as issuesSearchingComponents from './components'
 import * as issuesSearchingContainers from './containers'
-import issuesSearchingReducer, { IssuesSearchingAction, ReposAction, IGitForksState } from './reducer'
+import gitForksReducer, { GitForksAction, IGitForksState } from './reducer'
 import issuesSearchingEpics from './epics'
 import issuesSearchingRoutes from './routes'
 import * as issuesSearchingActions from './actions'
@@ -8,11 +8,10 @@ import * as issuesSearchingActions from './actions'
 export {
   issuesSearchingComponents,
   issuesSearchingContainers,
-  issuesSearchingReducer,
+  gitForksReducer,
   issuesSearchingRoutes,
   issuesSearchingEpics,
   issuesSearchingActions,
 }
-export type IssuesSearchingAction = IssuesSearchingAction
+export type GitForksAction = GitForksAction
 export type IGitForksState = IGitForksState
-export type ReposAction = ReposAction

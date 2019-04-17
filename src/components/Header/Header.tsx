@@ -8,7 +8,7 @@ export interface IProps {
   readonly className?: string
 }
 
-const Header: React.StatelessComponent<IProps> = ({ className, title }) => {
+const Header: React.FC<IProps> = ({ className, title }) => {
   const hdrClass = classNames(styles.header, className)
 
   return (

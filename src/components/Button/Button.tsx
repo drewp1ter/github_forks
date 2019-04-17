@@ -14,7 +14,7 @@ export interface IProps {
   readonly onClick: () => void
 }
 
-const Button: React.StatelessComponent<IProps> = ({
+const Button: React.FC<IProps> = ({
   className = '',
   children,
   onClick,

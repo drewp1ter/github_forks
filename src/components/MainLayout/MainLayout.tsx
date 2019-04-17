@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import styles from './mainLayout.module.scss'
 
-const MainLayout: React.StatelessComponent<RouteConfigComponentProps> = ({ route }) => (
+const MainLayout: React.FC<RouteConfigComponentProps> = ({ route }) => (
   <div className={styles.main}>
     {route && renderRoutes(route.routes)}
     <ToastContainer

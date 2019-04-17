@@ -1,13 +1,14 @@
 import { combineReducers } from 'redux'
+import { ActionType } from 'typesafe-actions'
 
-import forks, { IssuesSearchingAction, IssuesSearchingState } from './forks'
-import repos, { ReposAction, IReposState } from './repos'
+import * as actions from '../actions'
+import forks, { IForksState } from './forks'
+import repos, { IReposState } from './repos'
 
-export type IssuesSearchingAction = IssuesSearchingAction
-export type ReposAction = ReposAction
+export type GitForksAction = ActionType<typeof actions>
 
 export interface IGitForksState {
-  readonly forks: IssuesSearchingState
+  readonly forks: IForksState
   readonly repos: IReposState
 }
 
