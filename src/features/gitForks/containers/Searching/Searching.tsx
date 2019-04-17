@@ -2,28 +2,27 @@ import * as React from 'react'
 import { fromEvent } from 'rxjs'
 import { debounceTime, map, tap, filter, pluck } from 'rxjs/operators'
 import classNames from 'classnames'
+import { RouteComponentProps } from 'react-router'
 
 import { Input, Button, InputWithSuggestions, Spinner } from 'components'
 import { IForksRequest } from '../../models'
-import { fetchForks, fetchRepos } from '../../actions'
-import { IReposState } from '../../reducer/repos'
+import { fetchRepos } from '../../actions'
+import { IGitForksState } from '../../reducer'
 import styles from './searching.module.scss'
 
 export interface IPropsFromDispatch {
-  fetchForks: typeof fetchForks.request
   fetchRepos: typeof fetchRepos.request
 }
 
 export interface IProps {
   readonly className?: string
-  readonly forksFetching: boolean
 }
 
 export interface IState extends IForksRequest {
   readonly [key: string]: any
 }
 
-type AllProps = IProps & IPropsFromDispatch & IReposState
+type AllProps = IProps & IPropsFromDispatch & IGitForksState & RouteComponentProps
 
 class Searching extends React.Component<AllProps, IState> {
   public static defaultProps = {
@@ -43,9 +42,9 @@ class Searching extends React.Component<AllProps, IState> {
     this.setState({ [name]: value }, () => onSelect && this.handleClick())
 
   public handleClick = () => {
-    const { fetchForks } = this.props
+    const { history } = this.props
     const { userName, repoName } = this.state
-    fetchForks({ userName, repoName })
+    history.push(`/${userName}/${repoName}`)
   }
 
   public fetchRepos = (node: HTMLInputElement) => {
@@ -69,7 +68,7 @@ class Searching extends React.Component<AllProps, IState> {
   }
 
   public render = () => {
-    const { className, forksFetching, repos, error, fetching } = this.props
+    const { className, forks, repos } = this.props
     const { userName, repoName } = this.state
     const wrpClass = classNames(styles.wrapper, className)
     return (
@@ -79,17 +78,17 @@ class Searching extends React.Component<AllProps, IState> {
           <Input
             inputRef={this.fetchRepos}
             onChange={this.handleChange}
-            hasError={!!error.message}
+            hasError={!!repos.error.message}
             name="userName"
             value={userName}
           />
         </div>
-        <div className={styles.spinner}>{fetching && <Spinner />}</div>
+        <div className={styles.spinner}>{repos.fetching && <Spinner />}</div>
         <div className={styles.repoName}>
           <label className={styles.label}>Repository name</label>
-          <InputWithSuggestions name="repoName" onChange={this.handleChange} suggestions={repos} value={repoName} />
+          <InputWithSuggestions name="repoName" onChange={this.handleChange} suggestions={repos.repos} value={repoName} />
         </div>
-        <Button className={styles.button} onClick={this.handleClick} disabled={forksFetching || !repoName || !userName} loading={forksFetching}>
+        <Button className={styles.button} onClick={this.handleClick} disabled={forks.fetching || !repoName || !userName} loading={forks.fetching}>
           Search
         </Button>
       </div>

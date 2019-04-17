@@ -8,6 +8,11 @@ const routes: RouteConfig[] = [
     exact: true,
     component: containers.GitForksLayout,
   },
+  {
+    path: '/:userName/:repoName',
+    exact: true,
+    component: containers.GitForksLayout,
+  },
 ]
 
 export default routes

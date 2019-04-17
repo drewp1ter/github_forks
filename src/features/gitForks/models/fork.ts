@@ -17,6 +17,13 @@ export interface IFork {
 }
 
 export class Fork implements IFork {
+
+  public static create(dto: {}): IFork {
+    const fork: any = humps.camelizeKeys(dto)
+    fork.owner = new User(fork.owner)
+    return new Fork(fork)
+  }
+
   public id: number
   public fullName: string
   public htmlUrl: string
@@ -29,11 +36,5 @@ export class Fork implements IFork {
     this.htmlUrl = props.htmlUrl || ''
     this.stargazersCount = props.stargazersCount || 0
     this.owner = props.owner || ''
-  }
-
-  public static create(dto: {}): IFork {
-    let fork: any = humps.camelizeKeys(dto)
-    fork.owner = new User(fork.owner)
-    return new Fork(fork)
   }
 }

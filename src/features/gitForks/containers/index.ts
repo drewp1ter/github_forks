@@ -1,5 +1,5 @@
 import Searching from './Searching'
 import GitForksLayout from './GitForksLayout'
-// import IssueDetails from './issueDetails'
+import SearchingResults from '../containers/SearchingResults'
 
-export { Searching, GitForksLayout }
+export { Searching, GitForksLayout, SearchingResults }

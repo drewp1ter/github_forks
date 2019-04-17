@@ -4,17 +4,17 @@ import { withRouter } from 'react-router'
 import Types from 'Types'
 
 import * as actions from '../../actions'
-import Searching from './Searching'
+import SearchingResults from './SearchingResults'
 
 const mapStateToProps = (state: Types.RootState) => {
-  const { forks, repos } = state.gitForks
-  return { forks, repos }
+  const { forks } = state.gitForks
+  return { ...forks }
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
-      fetchRepos: actions.fetchRepos.request,
+      fetchForks: actions.fetchForks.request,
     },
     dispatch
   )
@@ -22,4 +22,4 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withRouter(Searching))
+)(withRouter(SearchingResults))
