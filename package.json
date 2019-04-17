@@ -2,6 +2,7 @@
   "name": "git_forks",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://api.github.com",
   "dependencies": {
     "@types/classnames": "^2.2.7",
     "@types/humps": "^1.1.2",
