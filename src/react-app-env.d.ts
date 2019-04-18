@@ -2,7 +2,9 @@
 /// <reference types="react" />
 /// <reference types="react-dom" />
 
+// tslint:disable-next-line:no-namespace
 declare namespace NodeJS {
+  // tslint:disable-next-line:interface-name
   interface ProcessEnv {
     NODE_ENV: 'development' | 'production' | 'test'
     PUBLIC_URL: string

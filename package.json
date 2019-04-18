@@ -45,7 +45,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "tslint": "node_modules/.bin/tslint -p tsconfig.json",
-    "typecheck": "tsc -p tsconfig.json"
+    "typecheck": "tsc -p tsconfig.json",
+    "buildimg": "docker build -t mufdvr/git_forks ."
   },
   "eslintConfig": {
     "extends": "react-app"
