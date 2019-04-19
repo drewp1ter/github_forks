@@ -31,10 +31,10 @@ export class Fork implements IFork {
   public owner: IUser
 
   constructor(props: any = {}) {
-    this.id = props.id || -1
+    this.id = +props.id || -1
     this.fullName = props.fullName || ''
     this.htmlUrl = props.htmlUrl || ''
-    this.stargazersCount = props.stargazersCount || 0
+    this.stargazersCount = +props.stargazersCount || 0
     this.owner = props.owner || ''
   }
 }

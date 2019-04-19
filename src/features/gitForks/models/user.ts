@@ -10,7 +10,7 @@ export class User implements IUser {
   public avatarUrl: string
 
   constructor(props: any = {}) {
-    this.id = props.id || -1
+    this.id = +props.id || -1
     this.login = props.login || ''
     this.avatarUrl = props.avatarUrl || ''
   }

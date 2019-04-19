@@ -64,8 +64,8 @@ class SearchingResults extends React.Component<AllProps> {
     return (
       <div className={styles.ibox}>
         <div className={styles.navButtons}>
-          <Button onClick={this.handleChangePage(-1)}>{'<<'}</Button>
-          <Button onClick={this.handleChangePage(1)}>{'>>'}</Button>
+          <Button onClick={this.handleChangePage(-1)}>{'<< Prev'}</Button>
+          <Button onClick={this.handleChangePage(1)}>{'Next >>'}</Button>
         </div>
         <div className={styles.iboxContent}>
           <table className={styles.table}>

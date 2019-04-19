@@ -45,8 +45,11 @@ class Searching extends React.Component<AllProps, IState> {
       location,
       repos: { repos },
     } = this.props
+    if (!location.search) {
+      return
+    }
     const { user: userName, repository: repoName } = queryString.parse(location.search) as any
-    !repos.length && userName && fetchRepos(userName)
+    !repos.length && fetchRepos(userName)
     this.setState({ userName, repoName })
   }
 
